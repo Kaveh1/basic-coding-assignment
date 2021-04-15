@@ -1,35 +1,42 @@
 import {React, useState} from 'react'
 
 const UploadImage = () => {
-  const [ selectedImages, setSelectedImages ] = useState([])
+  const [ selectedImage, setselectedImage ] = useState([])
   const [ isSelected, setIsSelected ] = useState(false)
   const [ selectedImageName, setselectedImageName ] = useState('')
-
-  function imageHandleChange(e) {
+  const [ allImages, setAllImages ] = useState([])
+  
+  const imageHandleChange = (e) => {
     if (e.target.files) {
       let imageDetails = []
       
       Array.from(e.target.files).map((f) => {
         imageDetails.push({
           file_name: f.name,
-          timestamp: f.lastModifiedDate,
+          timestamp: new Date().toLocaleString(),
           url: URL.createObjectURL(f)
         })
       })
       
-      setSelectedImages(imageDetails)
+      setselectedImage(imageDetails)
       setIsSelected(true);
       setselectedImageName(imageDetails[0].file_name)
     }
   }
 
-  const renderImages = (images) => {
-    return images.map((image_source) => {
-      return (
+  const handleSubmit = () => {
+    setAllImages(allImages.concat(selectedImage))
+  }
+
+  const ListImages = ({props}) => {
+    return props.map((image) => {
+      return  (
         <>
-          <img src={image_source.url} key={image_source.url}/>
-          <h3 key={image_source.file_name}>{image_source.file_name}</h3>
-          <h3 key={image_source.timestamp}>{image_source.timestamp.toLocaleDateString()}</h3>
+          <ul> 
+            <img src={image.url}/>
+            <h3>{image.file_name}</h3>
+            <h3>{image.timestamp}</h3>
+          </ul>
         </>
       )
     })
@@ -49,12 +56,14 @@ const UploadImage = () => {
               {isSelected ? selectedImageName : 
               <p>Kies bestand...</p>}
           </label>
-          {/* <button 
-            type='submit'>
+          <button 
+            type='submit'
+            onClick={handleSubmit}
+            >
             Voeg toe !
-          </button> */}
+          </button>
         </div>
-        {renderImages(selectedImages)}
+        <ListImages props={allImages} />
       </div>
     </>
   )
