@@ -54,6 +54,3 @@ const Countdown = () => {
 }
 
 export default Countdown;
-
-// placeholder='Type hier het aantal seconden in...'
-// onChange={e => setCounter(e.target.value)}
