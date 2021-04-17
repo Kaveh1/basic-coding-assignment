@@ -1,25 +1,28 @@
-import {React, useState} from 'react'
-import Timer from './Timer'
+import {React, useState, useEffect} from 'react'
 
 const Countdown = () => {
   // const { register, handleSubmit, errors } = useForm();
-  const [ counter, setCounter] = useState('')
-  const [ showTimer, setShowTimer ] = useState(false)
+  const [ value, setValue] = useState('')
+  const [ seconds, setSeconds ] =  useState(-1);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    setCounter('')
-  }
+  useEffect(() => {
+    const timer = setInterval(() => {
+        if (seconds > 0) {
+          setSeconds(seconds - 1)
+        } else {
+          clearInterval(timer)
+        }
+      }, 1000)
 
-  function handleChange(e) {
-    const value = e.target.value;
-    // if (value.includes('_')) {
-    //   setError('You cannot use an underscore');
-    // } else {
-    //   setError(null);
-    //   setMessage(value);
-    // }
-    setCounter(value);
+      return () => {
+        clearInterval(timer);
+      };
+    });
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setSeconds(value);
+    setValue('')
   }
 
   return (
@@ -29,18 +32,15 @@ const Countdown = () => {
         <form onSubmit={handleSubmit}>
           <input
             id='countdown_seconds'
-            name='countdown_seconds'
             type='number'
             pattern='[0-9]'
+            name='countdown_seconds'
             placeholder='Type hier het aantal seconden in...'
-            onChange={handleChange}
-            value={counter}
+            onChange={e => setValue(e.target.value)}
+            value={value}
+            required
           />
-          <button 
-            type='submit'
-            onClick={() => setShowTimer(true)}>
-            Start !
-          </button>
+          <input type='submit' id='submit_button'/>
           {/* {error && (
             <label style={{ color: 'red' }} htmlFor='message'>
               {error}
@@ -48,7 +48,7 @@ const Countdown = () => {
           )} */}
         </form>
       </div>
-      {showTimer ? <Timer props={counter}/> : null}
+      {seconds > 0 ? <h1>{seconds}s</h1> : null}
     </>
   )
 }

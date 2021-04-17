@@ -1,13 +1,13 @@
 import {React, useState} from 'react'
+import ImageList from './ImageList'
 
 const UploadImage = () => {
   const [ selectedImage, setselectedImage ] = useState([])
-  const [ isSelected, setIsSelected ] = useState(false)
-  const [ selectedImageName, setselectedImageName ] = useState('')
+  const [ selectedImageName, setselectedImageName ] = useState(null)
   const [ allImages, setAllImages ] = useState([])
   
-  const imageHandleChange = (e) => {
-    if (e.target.files) {
+  const handleChange = (e) => {
+    if (e.target.files.length !== 0) {
       let imageDetails = []
       
       Array.from(e.target.files).map((f) => {
@@ -17,29 +17,21 @@ const UploadImage = () => {
           url: URL.createObjectURL(f)
         })
       })
-      
-      setselectedImage(imageDetails)
-      setIsSelected(true);
+      console.log('e.target.files', e.target.files)
+      setselectedImage(imageDetails[0])
       setselectedImageName(imageDetails[0].file_name)
     }
   }
 
-  const handleSubmit = () => {
-    setAllImages(allImages.concat(selectedImage))
-  }
-
-  const ListImages = ({props}) => {
-    return props.map((image) => {
-      return  (
-        <>
-          <ul> 
-            <img src={image.url}/>
-            <h3>{image.file_name}</h3>
-            <h3>{image.timestamp}</h3>
-          </ul>
-        </>
-      )
-    })
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const existing_image = allImages.some(
+      el => el.createObjectURL === selectedImage.createObjectURL);
+    if (existing_image) { 
+      // showing message when an image already exists
+    } else {
+      setAllImages(allImages.concat(selectedImage))
+    }
   }
 
   return (
@@ -49,11 +41,10 @@ const UploadImage = () => {
           <label className='upload'>
             <input 
               name='image'
-              // multiple
               type='file'
               accept='image/*'
-              onChange={imageHandleChange}/>
-              {isSelected ? selectedImageName : 
+              onChange={handleChange}/>
+              {selectedImageName ? selectedImageName : 
               <p>Kies bestand...</p>}
           </label>
           <button 
@@ -63,7 +54,7 @@ const UploadImage = () => {
             Voeg toe !
           </button>
         </div>
-        <ListImages props={allImages} />
+        <ImageList props={allImages} />
       </div>
     </>
   )
