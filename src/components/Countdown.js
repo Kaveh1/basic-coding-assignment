@@ -1,4 +1,5 @@
 import {React, useState, useEffect} from 'react'
+// import Timer from './Timer'
 
 const Countdown = () => {
   // const { register, handleSubmit, errors } = useForm();
@@ -40,7 +41,7 @@ const Countdown = () => {
             value={value}
             required
           />
-          <input type='submit' id='submit_button'/>
+          <button type='submit' id='submit_button'>Start</button>
           {/* {error && (
             <label style={{ color: 'red' }} htmlFor='message'>
               {error}

@@ -1,5 +1,21 @@
 import {React, useState} from 'react'
-import ImageList from './ImageList'
+// import ImageList from './ImageList'
+
+const ImageList = ({
+  url,
+  file_name,
+  timestamp
+}) => {
+  return (
+    <>
+      <ul>
+        <img src={url}></img>
+        <h2>{file_name}</h2>
+        <h2>{timestamp}</h2>
+      </ul>
+    </>
+  )
+}
 
 const UploadImage = () => {
   const [ selectedImage, setselectedImage ] = useState([])
@@ -25,16 +41,15 @@ const UploadImage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setAllImages(allImages.concat(selectedImage))
-    /*const existing_image = allImages.some(
-      el => el.createObjectURL === selectedImage.createObjectURL);
-    console.log(existing_image)
-    if (existing_image) { 
-      // showing message when an image already exists
-    } else {
+
+    // checks if image is already available in list
+    const existing_image = allImages.some(
+      el => el.url === selectedImage.url);
+    if (!existing_image) {
       setAllImages(allImages.concat(selectedImage))
+    } else {
+      alert('The image is already available in list. Please select another')
     }
-    */
   }
 
   return (
@@ -57,7 +72,10 @@ const UploadImage = () => {
             Voeg toe !
           </button>
         </div>
-        <ImageList props={allImages} />
+        {allImages.map((image, idx) => {
+          return <ImageList {...image}
+          key={idx}/>
+        })}
       </div>
     </>
   )
