@@ -17,7 +17,7 @@ const UploadImage = () => {
           url: URL.createObjectURL(f)
         })
       })
-      console.log('e.target.files', e.target.files)
+
       setselectedImage(imageDetails[0])
       setselectedImageName(imageDetails[0].file_name)
     }
@@ -25,13 +25,16 @@ const UploadImage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const existing_image = allImages.some(
+    setAllImages(allImages.concat(selectedImage))
+    /*const existing_image = allImages.some(
       el => el.createObjectURL === selectedImage.createObjectURL);
+    console.log(existing_image)
     if (existing_image) { 
       // showing message when an image already exists
     } else {
       setAllImages(allImages.concat(selectedImage))
     }
+    */
   }
 
   return (
