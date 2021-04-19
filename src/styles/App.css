@@ -1,0 +1,39 @@
+.navbar {
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  background-color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar A {
+  display: inline-block;
+  color: #3A69C2;
+  border: 1px black;
+  font-size: 1.25rem;
+  padding: 1.5rem;
+  text-decoration: none; 
+}
+
+.no-option-selection, .unknown-selection {
+  text-align: center;
+}
+
+h1, h2 {
+  color: #9D9D9D;
+}
+
+.content {
+  text-align: center;
+  width: 100%;
+}
+
+#custom-button {
+  color: #ffffff;
+  font-size: 1rem;
+  border-radius: 10px;
+  background-color: #00AEEF;
+  padding: 1rem;
+  border: 1px solid #ffffff;
+  box-sizing: border-box;
+}
